@@ -1,4 +1,4 @@
-package dk.tec.privateermovie;
+package dk.tec.privateermovie.Models;
 
 import java.util.ArrayList;
 

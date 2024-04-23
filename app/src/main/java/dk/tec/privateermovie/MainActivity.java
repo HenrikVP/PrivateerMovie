@@ -10,11 +10,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
@@ -22,8 +19,12 @@ import com.google.gson.Gson;
 import java.util.HashMap;
 import java.util.Map;
 
+import dk.tec.privateermovie.Models.Movie;
+import dk.tec.privateermovie.Models.MovieSearch;
+
 public class MainActivity extends AppCompatActivity {
 
+    RequestQueue rq;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,9 +35,12 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        rq = Volley.newRequestQueue(getApplicationContext());
         initGui();
         fragmentChanger(StartFragment.class);
-        getMovieByIdAsync(17);
+
+        getMovieBySearch("Star Wars");
+        //getMovieByIdAsync(17);
     }
 
     void initGui() {
@@ -61,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
+
     public void getMovieByIdAsync(int id) {
-        RequestQueue rq = Volley.newRequestQueue(getApplicationContext());
         {
             String url = "https://api.themoviedb.org/3/movie/" + id;
             StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
@@ -79,5 +83,22 @@ public class MainActivity extends AppCompatActivity {
             };
             rq.add(request);
         }
+    }
+
+    void getMovieBySearch(String query)       {
+        String url = "https://api.themoviedb.org/3/search/movie?query=" + query;
+        StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
+            MovieSearch movieSearch = new Gson().fromJson(response, MovieSearch.class);
+            Toast.makeText(getApplicationContext(), movieSearch.total_results, Toast.LENGTH_LONG).show();
+        }, error -> Log.e("Volley", error.toString()))
+        {
+            @Override
+            public Map<String, String> getHeaders(){
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1OWVhNzY5ODA2N2U5YTAyMTllYjNiNDU1MTljZjUxZSIsInN1YiI6IjY0MTk3OTRmMzEwMzI1MDA3YzBiMzk1NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.73lcWBwBpTAbR9oFDaed3oKMMsP3UVBTG4XgpGTNYE4");
+                return params;
+            }
+        };
+        rq.add(request);
     }
 }
