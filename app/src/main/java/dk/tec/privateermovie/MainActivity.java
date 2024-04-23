@@ -44,15 +44,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void initGui() {
-        findViewById(R.id.nav_movie).setOnClickListener(view -> {
-            fragmentChanger(MovieFragment.class);
-        });
-        findViewById(R.id.nav_series).setOnClickListener(view -> {
-            fragmentChanger(SeriesFragment.class);
-        });
-        findViewById(R.id.nav_watchlist).setOnClickListener(view -> {
-            fragmentChanger(WatchlistFragment.class);
-        });
+        findViewById(R.id.nav_movie).setOnClickListener(view -> fragmentChanger(MovieFragment.class));
+        findViewById(R.id.nav_series).setOnClickListener(view ->fragmentChanger(SeriesFragment.class));
+        findViewById(R.id.nav_watchlist).setOnClickListener(view -> fragmentChanger(WatchlistFragment.class));
+        findViewById(R.id.btn_search).setOnClickListener(view -> fragmentChanger(SearchFragment.class));
     }
 
     private void fragmentChanger(Class c) {
@@ -76,8 +71,8 @@ public class MainActivity extends AppCompatActivity {
             {
                 @Override
                 public Map<String, String> getHeaders(){
-                    Map<String, String>  params = new HashMap<String, String>();
-                    params.put("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1OWVhNzY5ODA2N2U5YTAyMTllYjNiNDU1MTljZjUxZSIsInN1YiI6IjY0MTk3OTRmMzEwMzI1MDA3YzBiMzk1NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.73lcWBwBpTAbR9oFDaed3oKMMsP3UVBTG4XgpGTNYE4");
+                    Map<String, String>  params = new HashMap<>();
+                    params.put("Authorization", Secrets.Token);
                     return params;
                 }
             };
@@ -85,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    void getMovieBySearch(String query)       {
+     void getMovieBySearch(String query)       {
         String url = "https://api.themoviedb.org/3/search/movie?query=" + query;
         StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
             MovieSearch movieSearch = new Gson().fromJson(response, MovieSearch.class);
@@ -95,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders(){
                 Map<String, String>  params = new HashMap<String, String>();
-                params.put("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1OWVhNzY5ODA2N2U5YTAyMTllYjNiNDU1MTljZjUxZSIsInN1YiI6IjY0MTk3OTRmMzEwMzI1MDA3YzBiMzk1NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.73lcWBwBpTAbR9oFDaed3oKMMsP3UVBTG4XgpGTNYE4");
+                params.put("Authorization", Secrets.Token);
                 return params;
             }
         };
