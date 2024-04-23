@@ -22,21 +22,19 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        initGui();
         fragmentChanger(StartFragment.class);
     }
 
     void initGui(){
-        findViewById(R.id.btn_movies).setOnClickListener(view -> {
-
+        findViewById(R.id.nav_movie).setOnClickListener(view -> {
+            fragmentChanger(MovieFragment.class);
         });
-        findViewById(R.id.btn_series).setOnClickListener(view -> {
-
+        findViewById(R.id.nav_series).setOnClickListener(view -> {
+            fragmentChanger(SeriesFragment.class);
         });
-        findViewById(R.id.btn_watchlist).setOnClickListener(view -> {
-
-        });
-        findViewById(R.id.btn_search).setOnClickListener(view -> {
-
+        findViewById(R.id.nav_watchlist).setOnClickListener(view -> {
+            fragmentChanger(WatchlistFragment.class);
         });
     }
 
