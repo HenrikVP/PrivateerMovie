@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         String url = "https://api.themoviedb.org/3/search/movie?query=" + query;
         StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
             MovieSearch movieSearch = new Gson().fromJson(response, MovieSearch.class);
-            Toast.makeText(getApplicationContext(), movieSearch.total_results, Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "# results: " + movieSearch.total_results, Toast.LENGTH_LONG).show();
         }, error -> Log.e("Volley", error.toString()))
         {
             @Override
