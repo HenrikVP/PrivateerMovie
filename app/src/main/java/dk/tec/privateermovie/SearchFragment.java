@@ -1,47 +1,39 @@
 package dk.tec.privateermovie;
 
+import static dk.tec.privateermovie.MainActivity.rq;
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.GridView;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SearchFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.android.volley.Request;
+import com.android.volley.toolbox.StringRequest;
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import dk.tec.privateermovie.Models.MovieSearch;
+
 public class SearchFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     public SearchFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SearchFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static SearchFragment newInstance(String param1, String param2) {
         SearchFragment fragment = new SearchFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -49,10 +41,8 @@ public class SearchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        //getView().findViewById(R.id.btn_startsearch).setOnClickListener(view -> getMovieBySearch());
+
     }
 
     @Override
@@ -60,5 +50,39 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_search, container, false);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getView().findViewById(R.id.btn_startsearch).setOnClickListener(view -> getMovieBySearch());
+
+    }
+
+    void getMovieBySearch() {
+        String query = ((EditText)getView().findViewById(R.id.inp_search)).getText().toString();
+
+        String url = "https://api.themoviedb.org/3/search/movie?query=" + query;
+        StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
+            MovieSearch movieSearch = new Gson().fromJson(response, MovieSearch.class);
+            Toast.makeText(getContext(), "# results: " + movieSearch.total_results, Toast.LENGTH_LONG).show();
+            fillAdapter(movieSearch.results);
+
+        }, error -> Log.e("Volley", error.toString()))
+        {
+            @Override
+            public Map<String, String> getHeaders(){
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("Authorization", Secrets.Token);
+                return params;
+            }
+        };
+        rq.add(request);
+    }
+
+    private void fillAdapter(ArrayList<MovieSearch.Result> results) {
+        CardAdaptor adaptor = new CardAdaptor(getContext(), results);
+        GridView gridView =  getView().findViewById(R.id.view_results);
+        gridView.setAdapter(adaptor);
     }
 }

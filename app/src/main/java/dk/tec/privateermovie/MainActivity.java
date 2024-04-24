@@ -2,6 +2,7 @@ package dk.tec.privateermovie;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.GridView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -16,6 +17,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +26,7 @@ import dk.tec.privateermovie.Models.MovieSearch;
 
 public class MainActivity extends AppCompatActivity {
 
-    RequestQueue rq;
+    public static RequestQueue rq;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         initGui();
         fragmentChanger(StartFragment.class);
 
-        getMovieBySearch("Star Wars");
+        //getMovieBySearch("Star Wars");
         //getMovieByIdAsync(17);
     }
 
@@ -80,20 +82,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-     void getMovieBySearch(String query)       {
-        String url = "https://api.themoviedb.org/3/search/movie?query=" + query;
-        StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
-            MovieSearch movieSearch = new Gson().fromJson(response, MovieSearch.class);
-            Toast.makeText(getApplicationContext(), "# results: " + movieSearch.total_results, Toast.LENGTH_LONG).show();
-        }, error -> Log.e("Volley", error.toString()))
-        {
-            @Override
-            public Map<String, String> getHeaders(){
-                Map<String, String>  params = new HashMap<String, String>();
-                params.put("Authorization", Secrets.Token);
-                return params;
-            }
-        };
-        rq.add(request);
-    }
+
 }
