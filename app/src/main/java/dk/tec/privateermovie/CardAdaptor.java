@@ -1,5 +1,6 @@
 package dk.tec.privateermovie;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
@@ -18,6 +20,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+import dk.tec.privateermovie.Fragments.DetailFragment;
 import dk.tec.privateermovie.Models.MovieSearch;
 
 public class CardAdaptor extends ArrayAdapter<MovieSearch.Result> {
@@ -41,27 +44,15 @@ public class CardAdaptor extends ArrayAdapter<MovieSearch.Result> {
 
         if (movie.poster_path != null) {
             ImageView image = viewItem.findViewById(R.id.img_cardimage);
-            Glide.with(viewItem).load("https://image.tmdb.org/t/p/w500"+movie.poster_path).into(image);
-            //Picasso.get().load(movie.getImage()+"/low.jpg").into(image);
+            Glide.with(viewItem).load("https://image.tmdb.org/t/p/w500" + movie.poster_path).into(image);
+            image.setOnClickListener(view -> {
+                ((FragmentActivity) context).getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, DetailFragment.newInstance(movie.id), null)
+                        .setReorderingAllowed(true)
+                        .addToBackStack("name") // Name can be null
+                        .commit();
+            });
         }
-
-//        viewItem.setOnClickListener(view -> {
-//            StringRequest request = new StringRequest(
-//                    Request.Method.GET,
-//                    "https://api.tcgdex.net/v2/en/cards/" + movie.getId(),
-//                    response -> {
-//                        Intent myIntent = new Intent(context, CardActivity.class);
-//                        myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                        myIntent.putExtra("card", response); //Optional parameters
-//                        context.startActivity(myIntent);
-//                    },
-//                    volleyError -> {
-//                        Log.e("Volley", volleyError.getMessage());
-//                    });
-//            MainActivity.queue.add(request);
-//        });
-
         return viewItem;
-        //return super.getView(position, convertView, parent);
     }
 }

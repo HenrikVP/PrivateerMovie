@@ -1,7 +1,6 @@
 package dk.tec.privateermovie.Models;
 
 import java.util.ArrayList;
-
 public class MovieSearch {
     public int page;
     public ArrayList<Result> results;

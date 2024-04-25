@@ -2,7 +2,6 @@ package dk.tec.privateermovie;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.GridView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -17,16 +16,20 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import dk.tec.privateermovie.Fragments.MovieFragment;
+import dk.tec.privateermovie.Fragments.SearchFragment;
+import dk.tec.privateermovie.Fragments.SeriesFragment;
+import dk.tec.privateermovie.Fragments.StartFragment;
+import dk.tec.privateermovie.Fragments.WatchlistFragment;
 import dk.tec.privateermovie.Models.Movie;
-import dk.tec.privateermovie.Models.MovieSearch;
 
 public class MainActivity extends AppCompatActivity {
 
     public static RequestQueue rq;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,20 +44,17 @@ public class MainActivity extends AppCompatActivity {
         initGui();
         fragmentChanger(StartFragment.class);
 
-        //getMovieBySearch("Star Wars");
-        //getMovieByIdAsync(17);
     }
 
     void initGui() {
         findViewById(R.id.nav_movie).setOnClickListener(view -> fragmentChanger(MovieFragment.class));
-        findViewById(R.id.nav_series).setOnClickListener(view ->fragmentChanger(SeriesFragment.class));
+        findViewById(R.id.nav_series).setOnClickListener(view -> fragmentChanger(SeriesFragment.class));
         findViewById(R.id.nav_watchlist).setOnClickListener(view -> fragmentChanger(WatchlistFragment.class));
         findViewById(R.id.btn_search).setOnClickListener(view -> fragmentChanger(SearchFragment.class));
     }
 
     private void fragmentChanger(Class c) {
         // if (getSupportFragmentManager().getBackStackEntryCount() > 0)
-
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, c, null)
                 .setReorderingAllowed(true)
@@ -69,11 +69,10 @@ public class MainActivity extends AppCompatActivity {
             StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
                 Movie movie = new Gson().fromJson(response, Movie.class);
                 Toast.makeText(getApplicationContext(), movie.title, Toast.LENGTH_LONG).show();
-            }, error -> Log.e("Volley", error.toString()))
-            {
+            }, error -> Log.e("Volley", error.toString())) {
                 @Override
-                public Map<String, String> getHeaders(){
-                    Map<String, String>  params = new HashMap<>();
+                public Map<String, String> getHeaders() {
+                    Map<String, String> params = new HashMap<>();
                     params.put("Authorization", Secrets.Token);
                     return params;
                 }
@@ -81,6 +80,4 @@ public class MainActivity extends AppCompatActivity {
             rq.add(request);
         }
     }
-
-
 }
