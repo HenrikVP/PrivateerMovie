@@ -24,6 +24,7 @@ import dk.tec.privateermovie.Fragments.SearchFragment;
 import dk.tec.privateermovie.Fragments.SeriesFragment;
 import dk.tec.privateermovie.Fragments.StartFragment;
 import dk.tec.privateermovie.Fragments.WatchlistFragment;
+import dk.tec.privateermovie.Models.Genre;
 import dk.tec.privateermovie.Models.Movie;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
         rq = Volley.newRequestQueue(getApplicationContext());
+        Genre.createGenres();
         initGui();
         fragmentChanger(StartFragment.class);
 

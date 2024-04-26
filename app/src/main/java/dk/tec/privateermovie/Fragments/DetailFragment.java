@@ -1,6 +1,5 @@
 package dk.tec.privateermovie.Fragments;
 
-import android.media.Image;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -30,8 +29,6 @@ import dk.tec.privateermovie.Secrets;
 public class DetailFragment extends Fragment {
 
     private static final String ARG_PARAM1= "id";
-
-    // TODO: Rename and change types of parameters
     private int mParam1;
 
     @Override
@@ -87,7 +84,12 @@ public class DetailFragment extends Fragment {
 
     private void ShowMovie(Movie movie) {
         title.setText(movie.title);
-        info.setText(movie.overview);
+        info.setText(movie.overview
+                + "\nRelease date: "+ movie.release_date
+                + "\nPopularity: "+ movie.popularity
+                + "\nGenres: "+ movie.genres.toString()
+
+        );
         Glide.with(getView()).load("https://image.tmdb.org/t/p/w500" + movie.poster_path).into(poster);
     }
 }
