@@ -101,8 +101,8 @@ public class MovieFragment extends Fragment {
     void getMovieDiscover() {
         String url = "https://api.themoviedb.org/3/discover/movie?" +
                 "include_adult=true&include_video=false" +
-                "&with_genres=" + genre +
                 "&sort_by=" + sort;
+        if (genre != 0) url +="&with_genres=" + genre;
         StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
             MovieSearch movieSearch = new Gson().fromJson(response, MovieSearch.class);
             Toast.makeText(getContext(), "# results: " + movieSearch.total_results,

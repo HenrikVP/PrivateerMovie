@@ -5,10 +5,8 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.WatchlistFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <GridView
+        android:id="@+id/gw_watchlist"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Watchlist" />
-
+        android:layout_height="match_parent"/>
 </FrameLayout>

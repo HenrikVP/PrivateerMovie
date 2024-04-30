@@ -23,21 +23,21 @@
         android:background="@color/black">
         <ImageView
             android:id="@+id/nav_movie"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:src="@drawable/baseline_local_movies_24"
             android:padding="10dp"/>
         <ImageView
             android:id="@+id/nav_series"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:src="@drawable/baseline_live_tv_24"
             android:padding="10dp"/>
         <ImageView
             android:id="@+id/nav_watchlist"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:src="@drawable/baseline_format_list_bulleted_24"

@@ -5,6 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.DetailFragment">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:id="@+id/img_backdrop"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -27,7 +32,17 @@
             app:layout_constraintBottom_toTopOf="@+id/txt_info"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txt_title" />
+            app:layout_constraintTop_toBottomOf="@id/txt_title"
+            />
+
+<!--        <WebView-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/txt_info"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/txt_title"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:id="@+id/web_video"/>-->
 
         <TextView
             android:id="@+id/txt_info"
@@ -36,7 +51,10 @@
             app:layout_constraintBottom_toTopOf="@id/btn_add"
             app:layout_constraintTop_toBottomOf="@id/img_poster"
             android:layout_margin="20dp"
-            android:textSize="24sp"/>
+            android:textSize="24sp"
+            android:padding="20dp"
+            android:background="@color/transparent"
+            />
 
         <Button
             android:id="@+id/btn_add"
@@ -48,5 +66,6 @@
             app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </FrameLayout>

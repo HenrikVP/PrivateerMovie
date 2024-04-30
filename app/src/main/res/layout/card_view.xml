@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="600dp">
+    android:layout_height="300dp">
 
     <ImageView
         android:id="@+id/img_cardimage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="@string/poster" />
+        android:contentDescription="@string/poster"
+        android:scaleType="fitXY"/>
 
-    <Button
+    <ImageButton
         android:id="@+id/btn_addwatchlist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|bottom"
-        android:text="@string/add_to_watchlist" />
+        android:layout_gravity="end|bottom"
+        android:layout_margin="10dp"
+        android:background="@null"
+        android:src="@drawable/baseline_playlist_add_24"
+        android:contentDescription="@string/add_to_watchlist" />
 
 </androidx.cardview.widget.CardView>

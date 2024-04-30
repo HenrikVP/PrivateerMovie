@@ -13,10 +13,13 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.bumptech.glide.Glide;
 
+import java.time.Instant;
 import java.util.ArrayList;
 
 import dk.tec.privateermovie.Fragments.DetailFragment;
+import dk.tec.privateermovie.Models.Movie;
 import dk.tec.privateermovie.Models.MovieSearch;
+import dk.tec.privateermovie.Models.WatchlistItem;
 
 public class CardAdaptor extends ArrayAdapter<MovieSearch.Result> {
 
@@ -36,6 +39,14 @@ public class CardAdaptor extends ArrayAdapter<MovieSearch.Result> {
                     R.layout.card_view, parent, false);
 
         MovieSearch.Result movie = getItem(position);
+
+        viewItem.findViewById(R.id.btn_addwatchlist).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainActivity.watchlist.add(new WatchlistItem(movie.id, Instant.now()));
+                //TODO add to post api call
+            }
+        });
 
         if (movie.poster_path != null) {
             ImageView image = viewItem.findViewById(R.id.img_cardimage);

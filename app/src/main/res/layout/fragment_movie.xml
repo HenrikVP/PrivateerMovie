@@ -37,7 +37,8 @@
             android:id="@+id/view_results"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:numColumns="5" />
+            android:numColumns="auto_fit"
+            android:columnWidth="200dp" />
     </LinearLayout>
 
 </FrameLayout>

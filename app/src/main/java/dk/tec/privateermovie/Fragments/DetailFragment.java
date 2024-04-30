@@ -8,6 +8,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,8 +32,12 @@ import dk.tec.privateermovie.Secrets;
 
 public class DetailFragment extends Fragment {
 
-    private static final String ARG_PARAM1= "id";
+    private static final String ARG_PARAM1 = "id";
     private int mParam1;
+    TextView title, info;
+    Button addToWatchlist;
+    ImageView poster, backdrop;
+    WebView webView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,6 +51,7 @@ public class DetailFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,14 +60,14 @@ public class DetailFragment extends Fragment {
         }
     }
 
-    TextView title, info;
-    Button addToWatchlist;
-    ImageView poster;
+
     @Override
     public void onStart() {
         title = getView().findViewById(R.id.txt_title);
         info = getView().findViewById(R.id.txt_info);
         poster = getView().findViewById(R.id.img_poster);
+        backdrop = getView().findViewById(R.id.img_backdrop);
+        //webView = getView().findViewById(R.id.web_video);
         getMovieByIdAsync(mParam1);
         super.onStart();
     }
@@ -85,11 +94,24 @@ public class DetailFragment extends Fragment {
     private void ShowMovie(Movie movie) {
         title.setText(movie.title);
         info.setText(movie.overview
-                + "\nRelease date: "+ movie.release_date
-                + "\nPopularity: "+ movie.popularity
-                + "\nGenres: "+ movie.genres.toString()
+                + "\n\nRelease date: " + movie.release_date
+                + "\n\nPopularity: " + movie.popularity
+                + "\n\nGenres: " + movie.genres.toString()
 
         );
         Glide.with(getView()).load("https://image.tmdb.org/t/p/w500" + movie.poster_path).into(poster);
+        Glide.with(getView()).load("https://image.tmdb.org/t/p/original" + movie.backdrop_path).into(backdrop);
+
+//        String videoStr = "<html><body>Promo video<br><iframe width=\"420\" height=\"315\" src=\"https://www.youtube.com/embed/ulurgH9ePoM\" frameborder=\"0\" allowfullscreen></iframe></body></html>";
+//        webView.setWebViewClient(new WebViewClient() {
+//            @Override
+//            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+//                return false;
+//            }
+//        });
+//
+//        WebSettings ws = webView.getSettings();
+//        ws.setJavaScriptEnabled(true);
+//        webView.loadData(videoStr, "text/html", "utf-8");
     }
 }

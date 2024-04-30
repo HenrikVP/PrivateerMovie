@@ -16,7 +16,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import dk.tec.privateermovie.Fragments.MovieFragment;
@@ -26,10 +28,12 @@ import dk.tec.privateermovie.Fragments.StartFragment;
 import dk.tec.privateermovie.Fragments.WatchlistFragment;
 import dk.tec.privateermovie.Models.Genre;
 import dk.tec.privateermovie.Models.Movie;
+import dk.tec.privateermovie.Models.WatchlistItem;
 
 public class MainActivity extends AppCompatActivity {
 
     public static RequestQueue rq;
+    public static ArrayList<WatchlistItem> watchlist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +46,12 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
         rq = Volley.newRequestQueue(getApplicationContext());
+
+        watchlist = new ArrayList<>(0);
         Genre.createGenres();
         initGui();
         fragmentChanger(StartFragment.class);
-
+        //getUser();
     }
 
     void initGui() {
@@ -79,6 +85,25 @@ public class MainActivity extends AppCompatActivity {
                     return params;
                 }
             };
+            rq.add(request);
+        }
+    }
+
+    public void getUser() {
+        {
+            String url = "http://192.168.0.246:8989/api/user";
+            StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
+                //Movie movie = new Gson().fromJson(response, Movie.class);
+                Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
+            }, error -> Log.e("Volley", error.toString()));
+//            {
+////                @Override
+////                public Map<String, String> getHeaders() {
+////                    Map<String, String> params = new HashMap<>();
+////                    params.put("Authorization", Secrets.Token);
+////                    return params;
+////                }
+//            };
             rq.add(request);
         }
     }

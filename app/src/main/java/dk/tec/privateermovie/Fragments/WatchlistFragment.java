@@ -7,8 +7,16 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 
+import java.util.ArrayList;
+
+import dk.tec.privateermovie.CardAdaptor;
+import dk.tec.privateermovie.MainActivity;
+import dk.tec.privateermovie.Models.MovieSearch;
+import dk.tec.privateermovie.Models.WatchlistItem;
 import dk.tec.privateermovie.R;
+import dk.tec.privateermovie.WatchlistAdaptor;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,5 +70,17 @@ public class WatchlistFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_watchlist, container, false);
+    }
+
+    @Override
+    public void onStart() {
+        fillAdapter(MainActivity.watchlist);
+        super.onStart();
+    }
+
+    private void fillAdapter(ArrayList<WatchlistItem> results) {
+        WatchlistAdaptor adaptor = new WatchlistAdaptor(getContext(), results);
+        GridView gridView = getView().findViewById(R.id.gw_watchlist);
+        gridView.setAdapter(adaptor);
     }
 }
